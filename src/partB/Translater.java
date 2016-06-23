@@ -114,6 +114,7 @@ public class Translater {
 			System.out.println("error:" + errorDeltas[i]);
 			product *= Math.abs(errorDeltas[i]);
 		}
+		if (product < Math.pow(0.5, errorDeltas.length))	{
 			flag = false;
 		}
 	}

@@ -9,7 +9,7 @@ public class NeuralNetworkLearning {
 
 	}
 
-	public static double[] NeuralLearning(Neural[] neurals, double target, int numOfFinalOutput) {
+	public static double[]  NeuralLearning(Neural[] neurals, double target, int numOfFinalOutput) {
 
 		double[] finalOutputs = new double[numOfFinalOutput];
 		for (int i = 0; i < finalOutputs.length; i++) {
