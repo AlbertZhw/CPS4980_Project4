@@ -23,11 +23,11 @@ public class NeuralNetwork {
 		double[] target2 = { 0, 1 };
 		initNetwork(2, 2, 2);
 		while (flag) {
-			// for(int i = 0; i < 50000; i++) {
+			 //for(int i = 0; i < 10000; i++) {
 			runOnce(input1, target1);
 			runOnce(input2, target2);
 			System.out.println();
-			// }
+
 		}
 		System.out.println("==========Finished Adjusting==========");
 		System.out.println();
@@ -109,7 +109,7 @@ public class NeuralNetwork {
 			System.out.println("error:" + errorDeltas[i]);
 			product *= Math.abs(errorDeltas[i]);
 		}
-		if (product < Math.pow(0.005, errorDeltas.length)) {
+		if (product < Math.pow(0.01, errorDeltas.length)) {
 			flag = false;
 		}
 	}

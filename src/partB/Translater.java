@@ -24,35 +24,33 @@ public class Translater {
 		String input5 = "How are you";
 		String input6 = "What is up?";
 		String input7 = "What is cooking?";
-		String target1 = "Nihao";
-		String target2 = "Nihaoma?";
 
-		initNetwork(16, 10, 8);
-		//while (flag) {
-			for(int i = 0; i < 50000; i++)	{
-			runOnce(generateDouble(input1, 16), generateDouble(target1, 8));
-			runOnce(generateDouble(input2, 16), generateDouble(target1, 8));
-			runOnce(generateDouble(input3, 16), generateDouble(target1, 8));
-			runOnce(generateDouble(input4, 16), generateDouble(target1, 8));
-			runOnce(generateDouble(input5, 16), generateDouble(target2, 8));
-			runOnce(generateDouble(input6, 16), generateDouble(target2, 8));
-			runOnce(generateDouble(input7, 16), generateDouble(target2, 8));
+		initNetwork(16, 5, 1);
+		while (flag) {
+			// for (int i = 0; i < 200000; i++) {
+			runOnce(generateDouble(input1, 16), new double[] { 1 });
+			runOnce(generateDouble(input2, 16), new double[] { 1 });
+			runOnce(generateDouble(input3, 16), new double[] { 1 });
+			runOnce(generateDouble(input4, 16), new double[] { 1 });
+			runOnce(generateDouble(input5, 16), new double[] { 0 });
+			runOnce(generateDouble(input6, 16), new double[] { 0 });
+			runOnce(generateDouble(input7, 16), new double[] { 0 });
 			System.out.println();
-			}
-		//}
-		System.out.println("==========Finished Adjusting==========");
-		System.out.println();
-		System.out.println("================Input=================");
-		System.out.println("test inputs (split by space): ");
-		Scanner in = new Scanner(System.in);
-		String stringTestInput = in.next();
-		double[] testInput = generateDouble(stringTestInput, 16);
-		double[] finalOutput = forwordOutput(testInput);
-		System.out.println("===============Output=================");
-		for (int i = 0; i < finalOutput.length; i++) {
-			System.out.println("Final out put: " + finalOutput[i]);
 		}
-
+		System.out.println("==========Finished Adjusting==========");
+		for (int k = 0; k < 100; k++) {
+			System.out.println();
+			System.out.println("================Input=================");
+			System.out.println("test inputs: ");
+			Scanner in = new Scanner(System.in);
+			String stringTestInput = in.next();
+			double[] testInput = generateDouble(stringTestInput, 16);
+			double[] finalOutput = forwordOutput(testInput);
+			System.out.println("===============Output=================");
+			for (int i = 0; i < finalOutput.length; i++) {
+				System.out.println("Final out put: " + finalOutput[i]);
+			}
+		}
 	}
 
 	static void initNetwork(int inputSize, int hiddenSize, int outputSize) {
@@ -77,12 +75,12 @@ public class Translater {
 	static void randomWeight() {
 		for (int i = 0; i < inputHiddenWeights.length; i++) {
 			for (int j = 0; j < inputHiddenWeights[i].length; j++) {
-				inputHiddenWeights[i][j] = Math.random()* 200;
+				inputHiddenWeights[i][j] = Math.random();
 			}
 		}
 		for (int i = 0; i < hiddenOutputWeights.length; i++) {
 			for (int j = 0; j < hiddenOutputWeights[i].length; j++) {
-				hiddenOutputWeights[i][j] = Math.random() * 200;
+				hiddenOutputWeights[i][j] = Math.random();
 			}
 		}
 	}
@@ -108,13 +106,13 @@ public class Translater {
 	}
 
 	static void errorDeltas() {
-		double product = 1;
+		double sum = 0;
 		for (int i = 0; i < errorDeltas.length; i++) {
 			errorDeltas[i] = outputs[i] * (1 - outputs[i]) * (targets[i] - outputs[i]);
 			System.out.println("error:" + errorDeltas[i]);
-			product *= Math.abs(errorDeltas[i]);
+			sum += Math.abs(errorDeltas[i]);
 		}
-		if (product < Math.pow(0.5, errorDeltas.length))	{
+		if (sum < 0.001) {
 			flag = false;
 		}
 	}
@@ -145,13 +143,13 @@ public class Translater {
 		for (int i = 0; i < hiddens.length; i++) {
 			for (int j = 0; j < inputs.length; j++) {
 				inputHiddenWeights[j][i] += learningRate * hiddenDeltas[i] * inputs[j];
-				System.out.println(inputHiddenWeights[j][i]);
+				// System.out.println(inputHiddenWeights[j][i]);
 			}
 		}
 	}
 
 	static double sigmoid(double z) {
-		double sigmoid = 200.00 / (1.00 + Math.pow(Math.E, -z));
+		double sigmoid = 1.00 / (1.00 + Math.pow(Math.E, -z));
 		return sigmoid;
 	}
 
@@ -163,18 +161,35 @@ public class Translater {
 		hiddenDeltas();
 		adjustInputHiddenWeight();
 	}
-	
-	static double[] generateDouble(String str, int size)	{
-		char[] temp = str.toCharArray();
+
+	static double[] generateDouble(String str, int size) {
+		char[] ch = str.toCharArray();
+		char[] temp = new char[ch.length];
 		double[] array = new double[size];
+		for (int i = 0; i < temp.length; i++) {
+			if (Character.isLowerCase(ch[i])) {
+				temp[i] = Character.toLowerCase(ch[i]);
+			} else {
+				temp[i] = ch[i];
+			}
+		}
 		for (int i = 0; i < array.length; i++) {
-			if (i < str.length())	{
-				array[i] = (double)temp[i];
+			if (i < str.length()) {
+				array[i] = (double)temp[i] * 0.04 - 3.84;
 			} else {
 				array[i] = 0;
 			}
 		}
 		return array;
+
+	}
+
+	static String getOutput(double num) {
+		if (num >= 0.5) {
+			return "Nihao";
+		} else {
+			return "Nihaoma?";
+		}
 	}
 
 }
