@@ -1,27 +1,42 @@
 package partA;
 
 public class NeuralNetwork {
-	double[] inputs = {1,0};
-	double[] hiddens;
-	double[] outputs;
-	double[] targets;
-	double[] errorDeltas;
-	double[] hiddenDeltas;
-	double[][] inputHiddenWeights;
-	double[][] hiddenOutputWeights;
-	double[][] updateInputHiddenWeight;
-	double[][] updateHiddenOutputWeight;
+	static double[] inputs;
+	static double[] hiddens;
+	static double[] outputs;
+	static double[] targets;
+	static double[] errorDeltas;
+	static double[] hiddenDeltas;
+	static double[][] inputHiddenWeights;
+	static double[][] hiddenOutputWeights;
+	static double[][] updateInputHiddenWeight;
+	static double[][] updateHiddenOutputWeight;
 	
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		double[] input1 = {1,0};
+		double[] target1 = {1,0};
+		double[] input2 = {0,1};
+		double[] target2 = {0,1};
+		initNetwork(2, 2, 2);
+		for (int i = 0; i < 300; i++) {
+			runOnce(input1,target1);
+			runOnce(input2,target2);
+			System.out.println();			
+		}
+		double [] testInput = {1,0};
+		double [] finalOutput = forwordOutput(testInput);
+		for (int i = 0; i < finalOutput.length; i++) {
+			System.out.println("Final out put: " + finalOutput[i]);		
+		}
 		
 	}
-	void initNetwork(int inputSize,int hiddenSize, int outputSize){
+	static void initNetwork(int inputSize,int hiddenSize, int outputSize){
 		//inputs = new double[inputSize];
 		hiddens = new double[hiddenSize];
 		outputs = new double[outputSize];
-		targets = new double[outputSize];
+		//targets = new double[outputSize];
 		errorDeltas = new double[outputSize];
 		hiddenDeltas = new double[hiddenSize];
 		inputHiddenWeights = new double[inputSize][hiddenSize];
@@ -30,7 +45,11 @@ public class NeuralNetwork {
 		updateHiddenOutputWeight = new double[outputSize][hiddenSize];
 		randomWeight();
 	}
-	void randomWeight(){
+	static void setInputAndTarget(double[] input, double[] target){
+		inputs = input;
+		targets = target;
+	}
+	static void randomWeight(){
 		for(int i=0;i < inputHiddenWeights.length;i++){
 			for(int j=0;j < inputHiddenWeights[i].length;j++){
 				inputHiddenWeights[i][j] = Math.random();
@@ -42,10 +61,10 @@ public class NeuralNetwork {
 			}
 		}
 	}
-	void forwordOutput(){
+	static double[] forwordOutput(double[] input){
 		for(int i = 0; i < hiddens.length;i++){
-			for(int j = 0; j < inputs.length;j++){
-				hiddens[i] += inputs[j] * inputHiddenWeights[j][i];
+			for(int j = 0; j < input.length;j++){
+				hiddens[i] += input[j] * inputHiddenWeights[j][i];
 			}
 		}
 		for(int i = 0; i<hiddens.length;i++){
@@ -59,13 +78,15 @@ public class NeuralNetwork {
 		for(int i = 0; i<outputs.length;i++){
 			outputs[i] = sigmoid(outputs[i]);
 		}
+		return outputs;
 	}
-	void errorDeltas(){
+	static void errorDeltas(){
 		for(int i = 0; i<errorDeltas.length;i++){
 			errorDeltas[i] = outputs[i]*(1-outputs[i])*(targets[i] - outputs[i]);
+			System.out.println("error:" + errorDeltas[i]);
 		}
 	}
-	void adjustHiddenOutputWeight(){
+	static void adjustHiddenOutputWeight(){
 		int learningRate = 1;
 		for(int i = 0; i < outputs.length;i++){
 			for(int j = 0; j < hiddens.length;j++){
@@ -73,7 +94,7 @@ public class NeuralNetwork {
 			}
 		}
 	}
-	void hiddenDeltas(){
+	static void hiddenDeltas(){
 		double[] hiddenError = new double[hiddens.length];
 		for(int i = 0; i<hiddens.length;i++){
 			for(int j = 0; j < outputs.length;j++){
@@ -84,21 +105,22 @@ public class NeuralNetwork {
 			hiddenDeltas[i] = hiddenDeltas[i]*(1-hiddenDeltas[i])*(hiddenError[i]);
 		}
 	}
-	void adjustInputHiddenWeight(){
+	static void adjustInputHiddenWeight(){
 		int learningRate = 1;
 		for(int i = 0; i < hiddens.length;i++){
 			for(int j = 0; j < inputs.length;j++){
 				inputHiddenWeights[j][i] +=  learningRate*hiddenDeltas[i]*inputs[j];
+				System.out.println(inputHiddenWeights[j][i]);
 			}
 		}
 	}
-	double sigmoid(double z) {
+	static double sigmoid(double z) {
 		double sigmoid = 1.00 / (1.00 + Math.pow(Math.E, -z));
 		return sigmoid;
 	}
-	void runOnce(){
-		initNetwork(2, 2, 2);
-		forwordOutput();
+	static void runOnce(double[] input, double[] target){
+		setInputAndTarget(input, target);
+		forwordOutput(inputs);
 		errorDeltas();
 		adjustHiddenOutputWeight();
 		hiddenDeltas();
