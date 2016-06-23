@@ -28,8 +28,8 @@ public class Translater {
 		String target2 = "Nihaoma?";
 
 		initNetwork(16, 10, 8);
-		while (flag) {
-			//for(int i = 0; i < 50000; i++)	{
+		//while (flag) {
+			for(int i = 0; i < 50000; i++)	{
 			runOnce(generateDouble(input1, 16), generateDouble(target1, 8));
 			runOnce(generateDouble(input2, 16), generateDouble(target1, 8));
 			runOnce(generateDouble(input3, 16), generateDouble(target1, 8));
@@ -38,8 +38,8 @@ public class Translater {
 			runOnce(generateDouble(input6, 16), generateDouble(target2, 8));
 			runOnce(generateDouble(input7, 16), generateDouble(target2, 8));
 			System.out.println();
-			//}
-		}
+			}
+		//}
 		System.out.println("==========Finished Adjusting==========");
 		System.out.println();
 		System.out.println("================Input=================");
