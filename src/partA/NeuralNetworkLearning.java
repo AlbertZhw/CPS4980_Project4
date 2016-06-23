@@ -51,7 +51,7 @@ public class NeuralNetworkLearning {
 		return output * (1 - output) * error;
 	}
 
-	double newWeight(double oldWeight, double learningRate, double delta, double input) {
+	double adjustWeight(double oldWeight, double learningRate, double delta, double input) {
 		return oldWeight + learningRate * delta * input;
 	}
 
