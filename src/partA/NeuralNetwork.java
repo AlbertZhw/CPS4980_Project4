@@ -11,8 +11,6 @@ public class NeuralNetwork {
 	static double[] hiddenDeltas;
 	static double[][] inputHiddenWeights;
 	static double[][] hiddenOutputWeights;
-	static double[][] updateInputHiddenWeight;
-	static double[][] updateHiddenOutputWeight;
 	static boolean flag = true;
 
 	public static void main(String[] args) {
@@ -57,8 +55,6 @@ public class NeuralNetwork {
 		hiddenDeltas = new double[hiddenSize];
 		inputHiddenWeights = new double[inputSize][hiddenSize];
 		hiddenOutputWeights = new double[hiddenSize][outputSize];
-		updateInputHiddenWeight = new double[hiddenSize][inputSize];
-		updateHiddenOutputWeight = new double[outputSize][hiddenSize];
 		randomWeight();
 	}
 
