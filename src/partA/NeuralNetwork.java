@@ -109,7 +109,7 @@ public class NeuralNetwork {
 			System.out.println("error:" + errorDeltas[i]);
 			product *= Math.abs(errorDeltas[i]);
 		}
-		if (product < Math.pow(0.01, errorDeltas.length)) {
+		if (product < Math.pow(0.0001, errorDeltas.length)) {
 			flag = false;
 		}
 	}
@@ -131,7 +131,7 @@ public class NeuralNetwork {
 			}
 		}
 		for (int i = 0; i < hiddenDeltas.length; i++) {
-			hiddenDeltas[i] = hiddenDeltas[i] * (1 - hiddenDeltas[i]) * (hiddenError[i]);
+			hiddenDeltas[i] = hiddens[i] * (1 - hiddens[i]) * (hiddenError[i]);
 		}
 	}
 

@@ -1,3 +1,4 @@
+
 package partB;
 
 import java.util.Scanner;
@@ -35,7 +36,7 @@ public class Translater {
 			runOnce(generateDouble(input5, 16), new double[] { 0 });
 			runOnce(generateDouble(input6, 16), new double[] { 0 });
 			runOnce(generateDouble(input7, 16), new double[] { 0 });
-			System.out.println();
+			//System.out.println();
 		}
 		System.out.println("==========Finished Adjusting==========");
 		for (int k = 0; k < 100; k++) {
@@ -43,12 +44,12 @@ public class Translater {
 			System.out.println("================Input=================");
 			System.out.println("test inputs: ");
 			Scanner in = new Scanner(System.in);
-			String stringTestInput = in.next();
+			String stringTestInput = in.nextLine();
 			double[] testInput = generateDouble(stringTestInput, 16);
 			double[] finalOutput = forwordOutput(testInput);
 			System.out.println("===============Output=================");
 			for (int i = 0; i < finalOutput.length; i++) {
-				System.out.println("Final out put: " + finalOutput[i]);
+				System.out.println("Final out put: " + getOutput(finalOutput[i]));
 			}
 		}
 	}
@@ -109,10 +110,10 @@ public class Translater {
 		double sum = 0;
 		for (int i = 0; i < errorDeltas.length; i++) {
 			errorDeltas[i] = outputs[i] * (1 - outputs[i]) * (targets[i] - outputs[i]);
-			System.out.println("error:" + errorDeltas[i]);
+			//System.out.println("error:" + errorDeltas[i]);
 			sum += Math.abs(errorDeltas[i]);
 		}
-		if (sum < 0.001) {
+		if (sum < 0.00001) {
 			flag = false;
 		}
 	}
@@ -133,8 +134,8 @@ public class Translater {
 				hiddenError[i] += errorDeltas[j] * hiddenOutputWeights[i][j];
 			}
 		}
-		for (int i = 0; i < hiddenDeltas.length; i++) {
-			hiddenDeltas[i] = hiddenDeltas[i] * (1 - hiddenDeltas[i]) * (hiddenError[i]);
+		for (int i = 0; i < hiddens.length; i++) {
+			hiddenDeltas[i] = hiddens[i] * (1 - hiddens[i]) * (hiddenError[i]);
 		}
 	}
 
@@ -167,7 +168,7 @@ public class Translater {
 		char[] temp = new char[ch.length];
 		double[] array = new double[size];
 		for (int i = 0; i < temp.length; i++) {
-			if (Character.isLowerCase(ch[i])) {
+			if (!Character.isLowerCase(ch[i])) {
 				temp[i] = Character.toLowerCase(ch[i]);
 			} else {
 				temp[i] = ch[i];
