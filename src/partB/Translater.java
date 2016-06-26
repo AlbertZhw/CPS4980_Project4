@@ -1,4 +1,3 @@
-
 package partB;
 
 import java.util.Scanner;
@@ -34,7 +33,7 @@ public class Translater {
 			runOnce(generateDouble(input5, 16), new double[] { 0 });
 			runOnce(generateDouble(input6, 16), new double[] { 0 });
 			runOnce(generateDouble(input7, 16), new double[] { 0 });
-			//System.out.println();
+			System.out.println();
 		}
 		System.out.println("==========Finished Adjusting==========");
 		for (int k = 0; k < 100; k++) {
@@ -42,7 +41,7 @@ public class Translater {
 			System.out.println("================Input=================");
 			System.out.println("test inputs: ");
 			Scanner in = new Scanner(System.in);
-			String stringTestInput = in.next();
+			String stringTestInput = in.nextLine();
 			double[] testInput = generateDouble(stringTestInput, 16);
 			double[] finalOutput = forwordOutput(testInput);
 			System.out.println("===============Output=================");
@@ -106,7 +105,7 @@ public class Translater {
 		double sum = 0;
 		for (int i = 0; i < errorDeltas.length; i++) {
 			errorDeltas[i] = outputs[i] * (1 - outputs[i]) * (targets[i] - outputs[i]);
-			//System.out.println("error:" + errorDeltas[i]);
+			System.out.println("error:" + errorDeltas[i]);
 			sum += Math.abs(errorDeltas[i]);
 		}
 		if (sum < 0.00001) {
