@@ -44,7 +44,7 @@ public class Translater {
 			System.out.println("================Input=================");
 			System.out.println("test inputs: ");
 			Scanner in = new Scanner(System.in);
-			String stringTestInput = in.nextLine();
+			String stringTestInput = in.next();
 			double[] testInput = generateDouble(stringTestInput, 16);
 			double[] finalOutput = forwordOutput(testInput);
 			System.out.println("===============Output=================");
